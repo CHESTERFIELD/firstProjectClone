@@ -2,4 +2,4 @@ from django.shortcuts import redirect
 
 
 def redirect_blog(request):
-    return redirect('home_page_url', permanent=True)
+    return redirect('post_list', permanent=True)

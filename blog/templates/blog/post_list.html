@@ -1,39 +1,39 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-<div class="centerstage">
+    <div class="centerstage">
 
 
-    {% for post in post_list %}
-        <div class="post">
+        {% for post in post_list %}
+            <div class="post">
 
-            <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-            <div class="date">
-                <p>Published on: {{ post.published_date|date:"D M Y"}}</p>
+                <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+                <div class="date">
+                    <p>Published on: {{ post.published_date|date:"D M Y" }}</p>
+                </div>
+                <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approve_comments.count }}</a>
             </div>
-            <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approve_comments.count }}</a>
-        </div>
-    {% endfor %}
-</div>
+        {% endfor %}
+    </div>
 {% endblock %}
 
 
 {% block adv %}
-  <div class="col-md-4">
+    <div class="col-md-4">
 
-      <div class="advertising">
+        <div class="advertising">
 
-        <h2>Posts with the most comments:</h2>
-        {% for post in more_comment_post %}
-          <div class="most_post">
-              <h4><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h4>
-              <!-- <div class="most_post_date">
+            <h2>Posts with the most comments:</h2>
+            {% for post in more_comment_post %}
+                <div class="most_post">
+                    <h4><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h4>
+                    <!-- <div class="most_post_date">
                   <p>Published on: {{ post.published_date|date:"D M Y"}}</p>
               </div> -->
-          </div>
-        {% endfor %}
+                </div>
+            {% endfor %}
 
-      </div>
+        </div>
 
     </div>
 {% endblock %}

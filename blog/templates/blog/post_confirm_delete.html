@@ -2,9 +2,9 @@
 
 
 {% block content %}
-  <form action="" method="post">{% csrf_token %}
-    <p>Are you sure you want to delete "{{ object }}"?</p>
-    <input class='btn btn-danger' type="submit" value="Confirm" />
-    <a href="{% url 'post_detail' pk=object.pk %}" class="btn btn-primary">Cansel</a>
-  </form>
+    <form action="" method="post">{% csrf_token %}
+        <p>Are you sure you want to delete "{{ object }}"?</p>
+        <input class='btn btn-danger' type="submit" value="Confirm"/>
+        <a href="{% url 'post_detail' pk=object.pk %}" class="btn btn-primary">Cansel</a>
+    </form>
 {% endblock %}

@@ -3,19 +3,19 @@
 
 {% block content %}
 
-  <h1>New Post:</h1>
+    <h1>New Post:</h1>
 
-  {% if form.errors %}
-      <p>Entered data is wrong. Please try again!</p>
-  {% endif %}
+    {% if form.errors %}
+        <p>Entered data is wrong. Please try again!</p>
+    {% endif %}
 
-  <form method="POST" class="post-form">
-    {% csrf_token %}
-    {{ form.as_p }}
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        {{ form.as_p }}
 
-    <input type="submit" class='btn btn-primary' value="Save" />
-  </form>
+        <input type="submit" class='btn btn-primary' value="Save"/>
+    </form>
 
-  <script>var editor = new MediumEditor('.editable');</script>
+    <script>var editor = new MediumEditor('.editable');</script>
 
 {% endblock %}

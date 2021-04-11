@@ -1,73 +1,68 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-  <div class="detailpost container">
+    <div class="detailpost container">
+
+        <h1 class='posttitle loader'>{{ post.title }}</h1>
+
+        {% if post.published_date %}
+            <div class="date postdate">
+                {{ post.published_date }}
+            </div>
+
+        {% else %}
+            <a class="btn btn-outline-dark" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+        {% endif %}
+
+        <p class='postcontent'>{{ post.text|safe|linebreaksbr }}</p>
 
 
-            <h1 class='posttitle loader'>{{ post.title }}</h1>
-
-            {% if post.published_date %}
-                <div class="date postdate">
-                    {{ post.published_date }}
-                </div>
-
-            {% else %}
-                <a class="btn btn-outline-dark" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
-            {% endif %}
-
-          <p class='postcontent' >{{ post.text|safe|linebreaksbr }}</p>
-
-
-          {% if user.is_authenticated %}
-              <a class="btn btn-primary" href="{% url 'post_edit' pk=post.pk %}"><span class="fa fa-pencil"></span></a>
-              <a class="btn btn-primary" href="{% url 'post_remove' pk=post.pk %}"><span class="fa fa-remove"></span></a>
-          {% endif %}
+        {% if user.is_authenticated %}
+            <a class="btn btn-primary" href="{% url 'post_edit' pk=post.pk %}"><span class="fa fa-pencil"></span></a>
+            <a class="btn btn-primary" href="{% url 'post_remove' pk=post.pk %}"><span class="fa fa-remove"></span></a>
+        {% endif %}
 
 
 
-      <hr>
-      <a class="btn btn-primary btn-comment" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
-      <div class="container">
+        <hr>
+        <a class="btn btn-primary btn-comment" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
+        <div class="container">
 
 
-      {% for comment in post.comments.all %}
-      <br>
-          {% if user.is_authenticated or comment.approved_comment %}
+            {% for comment in post.comments.all %}
+                <br>
+                {% if user.is_authenticated or comment.approved_comment %}
 
-                  {{ comment.created_date }}
-                  {% if not comment.approved_comment %}
-                      <a class="btn btn-primary" href="{% url 'comment_remove' pk=comment.pk %}"><span class="fa fa-remove"></span></a>
-                      <a class="btn btn-primary" href="{% url 'comment_approve' pk=comment.pk %}"><span class="fa fa-check"></span></a>
-                  {% endif %}
+                    {{ comment.created_date }}
+                    {% if not comment.approved_comment %}
+                        <a class="btn btn-primary" href="{% url 'comment_remove' pk=comment.pk %}"><span
+                                class="fa fa-remove"></span></a>
+                        <a class="btn btn-primary" href="{% url 'comment_approve' pk=comment.pk %}"><span
+                                class="fa fa-check"></span></a>
+                    {% endif %}
 
-              <p>{{ comment.text|safe|linebreaks }}</p>
-              <p>Posted by: <strong>{{ comment.author }}</strong></p>
+                    <p>{{ comment.text|safe|linebreaks }}</p>
+                    <p>Posted by: <strong>{{ comment.author }}</strong></p>
 
-          {% endif %}
-      {% empty %}
-          <p>No comments posted.</p>
-      {% endfor %}
+                {% endif %}
+            {% empty %}
+                <p>No comments posted.</p>
+            {% endfor %}
+        </div>
     </div>
-  </div>
 {% endblock %}
 
 
 {% block adv %}
-  <div class="col-md-4">
-
-      <div class="advertising">
-
-        <h2>Posts with the most comments:</h2>
-        {% for post in more_comment_post %}
-          <div class="most_post">
-              <h4><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h4>
-              <!-- <div class="most_post_date">
-                  <p>Published on: {{ post.published_date|date:"D M Y"}}</p>
-              </div> -->
-          </div>
-        {% endfor %}
-
-      </div>
-
+    <div class="col-md-4">
+        <div class="advertising">
+            <h2>Posts with the most comments:</h2>
+            {% for post in more_comment_post %}
+                <div class="most_post">
+                    <h4><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h4>
+                    <p>Published on: {{ post.published_date|date:"D M Y" }}</p>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

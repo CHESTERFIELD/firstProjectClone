@@ -55,11 +55,12 @@ body{
 }
 
 footer {
-  position: relative;
-  top: 15px;
-  /* margin-bottom: 15px; */
-  clear: both;
-  height: 100px;
+  position: fixed;
+  left: 0; bottom: 0; /* Левый нижний угол */
+  padding: 10px; /* Поля вокруг текста */
+  color: #fff; /* Цвет текста */
+  width: 100%; /* Ширина слоя */
+  height: 50px;
   background: #456;
 }
 

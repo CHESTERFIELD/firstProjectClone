@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 {% load static %}
 <html>
-  <head>
+<head>
     <title>Blog Project</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <!-- Alternative to Bootstrap 3 Glyphicons -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -15,7 +15,8 @@
 
     {# MEDIUM STYLE EDITOR#}
     <script src="//cdn.jsdelivr.net/medium-editor/latest/js/medium-editor.min.js"></script>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/medium-editor/latest/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/medium-editor/latest/css/medium-editor.min.css" type="text/css"
+          media="screen" charset="utf-8">
 
 
     {# Custom CSS#}
@@ -23,135 +24,63 @@
 
     {# Fonts#}
     <link href="https://fonts.googleapis.com/css?family=Montserrat|Russo+One" rel="stylesheet">
-  </head>
+</head>
 
-  <body class='loader'>
+<body class='loader'>
 
-    <nav class="navbar navbar-expand-lg bg-light techfont">
-      <div class="container">
+<nav class="navbar navbar-expand-lg bg-light techfont">
+    <div class="container">
         <div class="navbar-nav align-items-center">
-          <a class="navbar-brand bigbrand" href="{% url 'post_list' %}">My Tech blog</a>
-          <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
-          <a class="nav-item nav-link" href="https://www.github.com">Github</a>
-          <a class="nav-item nav-link" href="https://www.linkedin.com">LinkedIn</a>
+            <a class="navbar-brand bigbrand" href="{% url 'post_list' %}">My Tech blog</a>
+            <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
         </div>
         <div class="navbar-nav align-items-center ml-auto">
-          {% if user.is_authenticated %}
-            <a class="nav-item nav-link" href="{% url 'post_new' %}">New Post</a>
-            <a class="nav-item nav-link" href="{% url 'post_draft_list' %}">Drafts</a>
-            <a class="nav-item nav-link" href="{% url 'logout' %}">Log out</a>
-            <a >Welcome: {{ user.username }}</a>
-          {% else %}
-            <a class="nav-item nav-link" href="{% url 'login' %}" aria-label="Login">
-              <span class="fa fa-user" aria-hidden="true"></span></a>
-          {% endif %}
+            {% if user.is_authenticated %}
+                <a class="nav-item nav-link" href="{% url 'post_new' %}">New Post</a>
+                <a class="nav-item nav-link" href="{% url 'post_draft_list' %}">Drafts</a>
+                <a class="nav-item nav-link" href="{% url 'logout' %}">Log out</a>
+                <a>Welcome: {{ user.username }}</a>
+            {% else %}
+                <a class="nav-item nav-link" href="{% url 'login' %}" aria-label="Login">
+                    <span class="fa fa-user" aria-hidden="true"></span></a>
+            {% endif %}
         </div>
-      </div>
-    </nav>
+    </div>
+</nav>
 
-    {# The actual blog posts #}
-          <div class="content container">
-              <div class="row home-posts">
-                  <div class="col-md-8">
-                    <div class="blog_posts">
-                      {% block content %}
-                      {% endblock %}
+{# The actual blog posts #}
+<div class="content container">
+    <div class="row home-posts">
+        <div class="col-md-8">
+            <div class="blog_posts">
+                {% block content %}
+                {% endblock %}
 
-                      {% if is_paginated %}
+                {% if is_paginated %}
+                    {% include 'blog/pagination.html' %}
+                {% endif %}
+            </div>
 
-                        <nav aria-label="Post navogation">
-                            <ul class="pagination">
+        </div>
+        {% if more_comment_post %}
+            {% block adv %}
+            {% endblock %}
+        {% endif %}
+    </div>
+</div>
 
-
-                              {#  left paginator #}
-
-                                <!-- <li class="page-item {% if not prev_url %} disabled {% endif %} ">
-                                    <a class="page-link" href="{{ prev_url }}" tabindex="-1"
-                                       aria-disabled="false">&laquo</a>
-                                </li> -->
-
-                                {% if page_obj.has_previous %}
-                                  <li class="page-item">
-                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
-                                  </li>
-                                  <li class="page-item">
-                                    <a class="page-link" href="?page=1">1</a>
-                                  </li>
-                                  <li class="page-item">
-                                    <a class="page-link" href="?page=1">...</a>
-                                  </li>
-
-                                {% else %}
-                                  <li class="page-item disabled">
-                                    <span class="page-link">&laquo;</span>
-                                  </li>
-                                {% endif %}
-
-                                {# end left paginator #}
+<footer>
+    <div>
+        &copy; A
+    </div>
+</footer>
 
 
-                                {% for n in paginator.page_range %}
-
-                                    {% if page_obje.number == n %}
-                                        <li class="page-item active">
-                                            <a class="page-link" href="?page={{ n }}">{{ n }} <span
-                                                    class="sr-only">(current)</span></a>
-                                        </li>
-
-                                        {% elif n > page_obj.number|add:-2 and n < page_obj.number|add:2 %}
-
-                                        <li class="page-item">
-                                            <a class="page-link" href="?page={{ n }}">{{ n }}</a>
-                                        </li>
-                                    {% endif %}
-
-                                {% endfor %}
-
-
-                                {#  right paginator #}
-
-                                <!-- <li class="page-item {% if not next_url %} disabled {% endif %}" >
-                                    <a class="page-link" href="{{ next_url }}">&raquo</a>
-                                </li> -->
-
-                                {% if page_obj.has_next %}
-                                <li class="page-item">
-                                  <a class="page-link" href="?page={{ paginator.num_pages }}">...</a>
-                                </li>
-                                <li class="page-item">
-                                  <a class="page-link" href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a>
-                                </li>
-                                  <li class="page-item">
-                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
-                                  </li>
-                                {% else %}
-                                  <li class="page-item disabled">
-                                    <span class="page-link">&raquo;</span>
-                                  </li>
-                                {% endif %}
-
-                                {# end right paginator #}
-                            </ul>
-                        </nav>
-
-                    {% endif %}
-
-
-                    </div>
-                  </div>
-                  {% block adv %}
-                  {% endblock %}
-              </div>
-          </div>
-
-    <footer></footer>
-
-
-    {# SCRIPTS #}
-    <script
-  src="https://code.jquery.com/jquery-3.4.1.js"
-  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous"></script>
-    <script src="{% static 'js/detailPostFadeIn.js' %}"></script>
-  </body>
+{# SCRIPTS #}
+<script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+<script src="{% static 'js/detailPostFadeIn.js' %}"></script>
+</body>
 </html>
